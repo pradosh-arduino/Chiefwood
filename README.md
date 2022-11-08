@@ -15,3 +15,9 @@
 
 ## Files location
   - every files that should be in Chiefwood file should be under `./contents` directory
+
+  **Here is an Example**
+
+  - contents/
+    - test.txt
+    - alsonicefilebtw.txt
