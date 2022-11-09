@@ -1,5 +1,7 @@
+![Banner](https://raw.githubusercontent.com/pradosh-arduino/Chiefwood/master/res/Chiefwood.png)
+
 # Chiefwood
-  This is a gzip like tool but with no compressibility for now 📚
+  This is a gzip like tool but with no compressibility for now 📚 (It can encrypt files)
 
   [![HitCount](https://hits.dwyl.com/pradosh-arduino/Chiefwood.svg?style=flat-square&show=unique)](http://hits.dwyl.com/pradosh-arduino/Chiefwood)
 
