@@ -15,18 +15,12 @@ namespace pradosh_arduino
             {
                 if (args[i].Contains("-create"))
                 {
-                    Console
-                        .WriteLine("Creating .cw" +
-                        cw.simple_version +
-                        " file.");
+                    Console.WriteLine("Creating .cw" + cw.simple_version + " file.");
                     cw.CreateCWF(args[i + 1]);
                 }
                 else if (args[i].Contains("-load"))
                 {
-                    Console
-                        .WriteLine("Reading .cw" +
-                        cw.simple_version +
-                        " file.");
+                    Console.WriteLine("Reading .cw" + cw.simple_version + " file.");
                     cw.ReadCWF(args[i + 1]);
                 }
             }
@@ -35,31 +29,21 @@ namespace pradosh_arduino
         public void CreateCWF(string name)
         {
             // Create Chiefwood file
-            using (
-                BinaryWriter binaryWriter =
-                    new BinaryWriter(File
-                            .Open(name + ".cw" + simple_version,
-                            FileMode.Create))
-            )
+            using (BinaryWriter binaryWriter = new BinaryWriter(File.Open(name + ".cw" + simple_version, FileMode.Create)))
             {
                 binaryWriter.Write("Chiefwood " + version);
                 binaryWriter.Write(Directory.GetFiles("./contents").Length);
                 foreach (string fileName in Directory.GetFiles("./contents"))
                 {
                     binaryWriter.Write(EncryptString(fileName));
-                    binaryWriter
-                        .Write(EncryptString(File.ReadAllText(fileName)));
+                    binaryWriter.Write(EncryptString(File.ReadAllText(fileName)));
                 }
             }
         }
 
         public void ReadCWF(string name)
         {
-            using (
-                BinaryReader binaryReader =
-                    new BinaryReader(File
-                            .Open(name + ".cw" + simple_version, FileMode.Open))
-            )
+            using (BinaryReader binaryReader = new BinaryReader(File.Open(name + ".cw" + simple_version, FileMode.Open)))
             {
                 string header = binaryReader.ReadString();
                 if (header.Contains("Chiefwood"))
@@ -70,15 +54,8 @@ namespace pradosh_arduino
                         for (int i = 0; i < totalFiles; i++)
                         {
                             string filename = binaryReader.ReadString();
-                            Console
-                                .WriteLine("Found file " +
-                                DecryptString(filename)
-                                    .Replace("./contents\\", "") +
-                                " Decrypting...");
-                            File
-                                .Create(DecryptString(filename)
-                                    .Replace("./contents\\", ""))
-                                .Close();
+                            Console.WriteLine("Found file " + DecryptString(filename).Replace("./contents\\", "") + " Decrypting...");
+                            File.Create(DecryptString(filename).Replace("./contents\\", "")).Close();
                             File.WriteAllText(DecryptString(filename).Replace("./contents\\", ""), DecryptString(binaryReader.ReadString()));
                         }
                     }
