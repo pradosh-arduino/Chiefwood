@@ -23,3 +23,12 @@
   - contents/
     - test.txt
     - alsonicefilebtw.txt
+    
+  inside **test.txt**
+  ```txt
+  HERE IS AN EXAMPLE!
+  Hey hi hello! normal text works!
+  CAPITAL TEXT ALSO!
+  Emojis also, why not 😉🧪🍕
+  Even these stylish text also: 𝑀𝒶𝓎𝒷𝑒 𝓉𝒽𝒾𝓈 𝓉𝑜𝑜
+  ```
