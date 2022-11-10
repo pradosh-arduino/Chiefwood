@@ -61,10 +61,10 @@ namespace pradosh_arduino
                         int totalFiles = binaryReader.ReadInt32();
                         for (int i = 0; i < totalFiles; i++)
                         {
-                            string filename = binaryReader.ReadString();
-                            Console.WriteLine("Found file " + DecryptString(filename).Replace("./contents\\", "") + " Decrypting...");
-                            File.Create(DecryptString(filename).Replace("./contents\\", "")).Close();
-                            File.WriteAllText(DecryptString(filename).Replace("./contents\\", ""), DecryptString(binaryReader.ReadString()));
+                            string dec_filename = DecryptString(binaryReader.ReadString()).Replace("./contents\\", "");
+                            Console.WriteLine("Found file " + dec_filename + " Decrypting...");
+                            File.Create(dec_filename).Close();
+                            File.WriteAllText(dec_filename, DecryptString(binaryReader.ReadString()));
                         }
                     }
                     else
