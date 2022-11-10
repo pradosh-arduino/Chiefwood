@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.IO.Compression;
 
 namespace pradosh_arduino
 {
@@ -8,9 +9,16 @@ namespace pradosh_arduino
 
         string simple_version = "1";
 
+        int compressLevel = 0;
+
         static void Main(string[] args)
         {
             Chiefwood cw = new Chiefwood();
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please pass some arguments.");
+                return;
+            }
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i].Contains("-create"))
@@ -22,6 +30,34 @@ namespace pradosh_arduino
                 {
                     Console.WriteLine("Reading " + args[i + 1] + ".cw" + cw.simple_version + " file.");
                     cw.ReadCWF(args[i + 1]);
+                }
+                else if (args[i].Contains("-compression"))
+                {
+                    if (args[i + 1] == "none")
+                    {
+                        cw.compressLevel = 0;
+                    }
+                    else if (args[i + 1] == "fast")
+                    {
+                        cw.compressLevel = 1;
+                    }
+                    else if (args[i + 1] == "optimal")
+                    {
+                        cw.compressLevel = 2;
+                    }
+                    else if (args[i + 1] == "best")
+                    {
+                        cw.compressLevel = 3;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Only 'none, fast, optimal, best' is allowed for compression");
+                        return;
+                    }
+                }
+                else if (args[i].Contains("-help"))
+                {
+                    Console.WriteLine("Welcome to Chiefwood Compressor - Here is the help\n\t-create <name>\t        This argument is used to create a Chiefwood file (no file extension)\n\t-load <name>\t        Loads a Chiefwood file (no file extension)\n\t-compression <level>\tself explainable, \'none, fast, optimal, best\'");
                 }
             }
         }
@@ -81,16 +117,44 @@ namespace pradosh_arduino
             }
         }
 
-        public static string DecryptString(string base64EncodedData)
+        public string DecryptString(string base64EncodedData)
         {
-            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            var base64EncodedBytes = Decompress(System.Convert.FromBase64String(base64EncodedData));
+            return Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
-        public static string EncryptString(string plainText)
+        public string EncryptString(string plainText)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+
+            var plainTextBytes = Compress(Encoding.UTF8.GetBytes(plainText));
             return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public byte[] Compress(byte[] bytes)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var brotliStream = new BrotliStream(memoryStream, (CompressionLevel)compressLevel))
+                {
+                    brotliStream.Write(bytes, 0, bytes.Length);
+                }
+                return memoryStream.ToArray();
+            }
+        }
+
+        public byte[] Decompress(byte[] bytes)
+        {
+            using (var memoryStream = new MemoryStream(bytes))
+            {
+                using (var outputStream = new MemoryStream())
+                {
+                    using (var decompressStream = new BrotliStream(memoryStream, CompressionMode.Decompress))
+                    {
+                        decompressStream.CopyTo(outputStream);
+                    }
+                    return outputStream.ToArray();
+                }
+            }
         }
     }
 }
