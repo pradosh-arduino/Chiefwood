@@ -9,7 +9,8 @@ namespace pradosh_arduino
 
         string simple_version = "1";
 
-        int compressLevel = 0;
+        static int compressLevel = 2; // Defaults to none
+
 
         static void Main(string[] args)
         {
@@ -31,28 +32,32 @@ namespace pradosh_arduino
                     Console.WriteLine("Reading " + args[i + 1] + ".cw" + cw.simple_version + " file.");
                     cw.ReadCWF(args[i + 1]);
                 }
-                else if (args[i].Contains("-compression"))
+                else if (args[0].Contains("-compression"))
                 {
-                    if (args[i + 1] == "none")
+                    if (args[1] == "none")
                     {
-                        cw.compressLevel = 0;
+                        compressLevel = 2;
+                        Console.WriteLine("Compression is disabled.");
                     }
-                    else if (args[i + 1] == "fast")
+                    else if (args[1] == "fast")
                     {
-                        cw.compressLevel = 1;
+                        compressLevel = 1;
+                        Console.WriteLine("Compression is set to fast.");
                     }
-                    else if (args[i + 1] == "optimal")
+                    else if (args[1] == "optimal")
                     {
-                        cw.compressLevel = 2;
+                        compressLevel = 0;
+                        Console.WriteLine("Compression is set to optimal.");
                     }
-                    else if (args[i + 1] == "best")
+                    else if (args[1] == "best")
                     {
-                        cw.compressLevel = 3;
+                        compressLevel = 3;
+                        Console.WriteLine("Compression is set to best.");
                     }
                     else
                     {
-                        Console.WriteLine("Only 'none, fast, optimal, best' is allowed for compression");
-                        return;
+                        Console.WriteLine("Only 'none, fast, optimal, best' is allowed for compression.");
+                        Environment.Exit(-1);
                     }
                 }
                 else if (args[i].Contains("-help"))
@@ -134,7 +139,7 @@ namespace pradosh_arduino
         {
             using (var memoryStream = new MemoryStream())
             {
-                using (var brotliStream = new BrotliStream(memoryStream, (CompressionLevel)compressLevel))
+                using (var brotliStream = new BrotliStream(memoryStream, (CompressionLevel)Enum.ToObject(typeof(CompressionLevel), compressLevel)))
                 {
                     brotliStream.Write(bytes, 0, bytes.Length);
                 }

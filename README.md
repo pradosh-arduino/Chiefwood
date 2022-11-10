@@ -8,12 +8,17 @@
 # Usage
   - To create Chiefwood file
   ```cmd
-  dotnet run -create <filename_without_extension>
+  dotnet run -compression <level> -create <filename_without_extension>
   ```
+  Compression Levels are **none, fast, optimal, best**
+
+  **Note:** `-compression` must be first!
+
   - To Load Chiefwood file
   ```cmd
   dotnet run -load <filename_without_extension>
   ```
+  
 
 ## Files location
   - every files that should be in Chiefwood file should be under `./contents` directory
