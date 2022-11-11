@@ -5,7 +5,7 @@ namespace pradosh_arduino
 {
     class Chiefwood
     {
-        string version = "v1.0.0";
+        string version = "v1.0";
 
         string simple_version = "1";
 
@@ -70,7 +70,7 @@ namespace pradosh_arduino
                 // Create Chiefwood file
                 using (BinaryWriter binaryWriter = new BinaryWriter(File.Open(name + ".cw" + simple_version, FileMode.Create)))
                 {
-                    binaryWriter.Write("Chiefwood " + version);
+                    binaryWriter.Write("cw " + version);
                     binaryWriter.Write(Directory.GetFiles("./contents").Length);
                     foreach (string fileName in Directory.GetFiles("./contents"))
                     {
@@ -91,7 +91,7 @@ namespace pradosh_arduino
             using (BinaryReader binaryReader = new BinaryReader(File.Open(name + ".cw" + simple_version, FileMode.Open)))
             {
                 string header = binaryReader.ReadString();
-                if (header.Contains("Chiefwood"))
+                if (header.Contains("cw"))
                 {
                     if (header.Contains(version))
                     {
