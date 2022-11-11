@@ -37,22 +37,18 @@ namespace pradosh_arduino
                     if (args[1] == "none")
                     {
                         compressLevel = 2;
-                        Console.WriteLine("Compression is disabled.");
                     }
                     else if (args[1] == "fast")
                     {
                         compressLevel = 1;
-                        Console.WriteLine("Compression is set to fast.");
                     }
                     else if (args[1] == "optimal")
                     {
                         compressLevel = 0;
-                        Console.WriteLine("Compression is set to optimal.");
                     }
                     else if (args[1] == "best")
                     {
                         compressLevel = 3;
-                        Console.WriteLine("Compression is set to best.");
                     }
                     else
                     {
