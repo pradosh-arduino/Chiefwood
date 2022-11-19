@@ -4,7 +4,7 @@
   This is a file compressor and encrypter 📚
 
   [![HitCount](https://hits.dwyl.com/pradosh-arduino/Chiefwood.svg?style=flat-square&show=unique)](http://hits.dwyl.com/pradosh-arduino/Chiefwood)
-  [![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg?style=flat-square)](https://saythanks.io/to/radosh-arduino)
+  [![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg?style=flat-square)](https://saythanks.io/to/pradosh-arduino)
 
 # Usage
   - To create Chiefwood file
